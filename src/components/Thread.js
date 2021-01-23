@@ -12,6 +12,7 @@ import "./Thread.css";
 import { useSelector } from "react-redux";
 import { selectThreadName, selectThreadId } from "../features/threadSlice";
 import { selectUser } from "../features/userSlice";
+
 const Thread = () => {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -22,15 +23,13 @@ const Thread = () => {
 
   useEffect(() => {
     if (threadId) {
-      db.collection("thread")
+      db.collection("threads")
         .doc(threadId)
         .collection("messages")
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) =>
           setMessages(
-            snapshot.docs.map((doc) => {
-              return { id: doc.id, data: doc.data };
-            })
+            snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
           )
         );
     }
@@ -53,7 +52,7 @@ const Thread = () => {
         <div className="thread__header__contents">
           <Avatar />
           <div className="thread__header__contents__info">
-            <h4>ThreadName</h4>
+            <h4>{threadName}</h4>
             <h5>Last seen</h5>
           </div>
         </div>

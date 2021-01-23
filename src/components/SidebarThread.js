@@ -1,7 +1,7 @@
 import { Avatar } from "@material-ui/core";
 import React from "react";
 import "./SidebarThread.css";
-const SidebarThread = ({ threadName }) => {
+const SidebarThread = ({ threadName = "threadName" }) => {
   return (
     <div className="sidebarThread">
       <Avatar />
